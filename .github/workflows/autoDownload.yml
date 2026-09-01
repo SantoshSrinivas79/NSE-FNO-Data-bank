@@ -1,0 +1,66 @@
+name: Get F&O Bhavcopy
+
+on:
+  schedule:
+    # 20:00 IST on NSE weekdays, after the daily report is normally available.
+    - cron: "30 14 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "One trading date (YYYY-MM-DD)"
+        required: false
+        type: string
+      from:
+        description: "Backfill start date (YYYY-MM-DD)"
+        required: false
+        type: string
+      to:
+        description: "Backfill end date (YYYY-MM-DD)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nse-fno-bhavcopy
+  cancel-in-progress: false
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm test
+      - name: Download and validate bhavcopy
+        env:
+          INPUT_DATE: ${{ inputs.date }}
+          INPUT_FROM: ${{ inputs.from }}
+          INPUT_TO: ${{ inputs.to }}
+        run: |
+          if [ -n "$INPUT_FROM" ] || [ -n "$INPUT_TO" ]; then
+            if [ -z "$INPUT_FROM" ] || [ -z "$INPUT_TO" ]; then
+              echo "Both from and to are required for a backfill." >&2
+              exit 1
+            fi
+            node index.js --from "$INPUT_FROM" --to "$INPUT_TO"
+          elif [ -n "$INPUT_DATE" ]; then
+            node index.js --date "$INPUT_DATE"
+          else
+            node index.js
+          fi
+      - name: Commit new data
+        run: |
+          if git diff --quiet -- data && [ -z "$(git status --short --untracked-files=all data)" ]; then
+            echo "No new validated bhavcopy to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git commit -m "Add validated NSE F&O bhavcopy"
+          git push

@@ -1,0 +1,14 @@
+{
+  "name": "nse-fno-data-bank",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Validated daily and historical NSE equity-derivatives bhavcopy downloader",
+  "scripts": {
+    "download": "node index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
