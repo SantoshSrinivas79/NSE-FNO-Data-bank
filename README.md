@@ -9,7 +9,9 @@ This repository downloads, validates, and stores the National Stock Exchange of 
 NSE changed the official F&O bhavcopy on 8 July 2024:
 
 - Through 5 July 2024: `https://archives.nseindia.com/content/historical/DERIVATIVES/YYYY/MON/foDDMONYYYYbhav.csv.zip`
-- From 8 July 2024: `https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_YYYYMMDD_F_0000.csv.zip`
+- From 8 July 2024: `https://archives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_YYYYMMDD_F_0000.csv.zip`
+
+The downloader falls back to NSE's `nsearchives.nseindia.com` host if the primary archive host is unavailable.
 
 The new format is NSE's **F&O-UDiFF Common Bhavcopy Final**, which replaced the discontinued legacy CSV. See NSE's [official derivatives reports page](https://www.nseindia.com/all-reports-derivatives).
 

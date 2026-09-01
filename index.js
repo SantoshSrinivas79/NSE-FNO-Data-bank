@@ -12,8 +12,8 @@ const MONTHS = [
   "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
 ];
 const ARCHIVE_HOSTS = [
-  "https://nsearchives.nseindia.com",
   "https://archives.nseindia.com",
+  "https://nsearchives.nseindia.com",
 ];
 
 function isoDateInIndia(now = new Date()) {
