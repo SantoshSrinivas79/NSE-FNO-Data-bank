@@ -202,7 +202,10 @@ async function downloadDate(iso, root = __dirname) {
     try {
       console.log(`Fetch ${url}`);
       const result = await fetchWithRetries(url);
-      if (result.status === 404) continue;
+      if (result.status === 404) {
+        console.log(`No NSE F&O bhavcopy published for ${iso}.`);
+        return { state: "unavailable" };
+      }
       const stats = validateArchive(result.buffer, iso);
       await fs.mkdir(path.dirname(destination), { recursive: true });
       const temporary = `${destination}.part`;
