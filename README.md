@@ -58,6 +58,20 @@ npm test
 
 For UDiFF, the downloader checks the requested trade date, `FO` segment, and core contract/OHLC/volume/open-interest columns. For legacy files, it checks the legacy schema and `TIMESTAMP`.
 
+## Local SQLite analytics
+
+Build an indexed, normalized local database from all downloaded archives:
+
+```bash
+npm run db:build
+npm run db:status
+sqlite3 nse_fno.db
+```
+
+The build is resumable and safe to run again after downloading new days. It retains only actively traded rows (`CONTRACTS > 0` in legacy files or `TtlTradgVol > 0` in UDiFF files), while the original ZIPs remain unchanged. Generated SQLite files are ignored by Git.
+
+The current local build contains 19,099,411 active rows, excluding 55,307,739 zero-volume rows from the 74,407,150 source rows. See [Local SQLite analytics](docs/sqlite.md) for the normalized schema, volume semantics, and example queries.
+
 ## Data notice
 
 The MIT license covers the code in this repository. NSE data remains subject to NSE's applicable terms, policies, and rights. This project is not affiliated with or endorsed by NSE.

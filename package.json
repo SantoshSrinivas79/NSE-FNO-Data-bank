@@ -5,7 +5,9 @@
   "description": "Validated daily and historical NSE equity-derivatives bhavcopy downloader",
   "scripts": {
     "download": "node index.js",
-    "test": "node --test"
+    "db:build": "python3 scripts/build_sqlite.py",
+    "db:status": "python3 scripts/build_sqlite.py --status",
+    "test": "node --test && python3 -m unittest discover -s test -p 'test_*.py'"
   },
   "engines": {
     "node": ">=20"
