@@ -17,6 +17,22 @@ The new format is NSE's **F&O-UDiFF Common Bhavcopy Final**, which replaced the 
 
 Files are kept compressed under `data/YYYY/MM/`. The repository stores the original NSE ZIP without transforming market values.
 
+## Coverage
+
+The current backfill contains **1,579 validated daily archives** from **13 April 2020 through 31 August 2026** (about 1.2 GB compressed):
+
+| Year | Archives |
+| --- | ---: |
+| 2020 | 182 |
+| 2021 | 247 |
+| 2022 | 248 |
+| 2023 | 245 |
+| 2024 | 246 |
+| 2025 | 248 |
+| 2026 through 31 August | 163 |
+
+Counts include every bhavcopy published by NSE in the covered period; weekends, exchange holidays, and dates for which NSE publishes no archive are absent.
+
 ## Download
 
 Node.js 20 or newer is required. There are no package dependencies.
